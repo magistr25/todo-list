@@ -1,0 +1,33 @@
+#root {
+  max-width: 1440px;
+  margin: 0 auto;
+  font-family: 'Muller', sans-serif;
+  font-weight: 400;
+}
+
+.wrapper {
+  width: 1440px;
+  height: 100vh;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  width: 1240px;
+  display: flex;
+  margin: 100px auto;
+  flex-direction: column;
+  justify-content: center;
+}
+
+h1 {
+  margin: 0 auto 30px auto;
+  font-weight: 700;
+  font-size: 96px;
+  height: 96px;
+  line-height: 96px;
+ }
+
+
+
