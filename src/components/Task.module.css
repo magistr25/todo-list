@@ -75,39 +75,42 @@
 
 }
 
-.editButton {
+.editButton, .deleteButton {
     background: none;
     border: none;
     cursor: pointer;
+    width: 24px;
+    height: 24px;
+    margin-left: 10px;
+   }
 
-    transition: transform 0.2s ease, color 0.3s ease;
+
+.editButton:active svg {
+    stroke: #0013FF;
+    fill: none;
+}
+.editButton:hover svg{
+    color: #606492;
 }
 
-.editButton:focus {
-    transform: scale(1.1);
-    color: #30324B;
-}
+.editButton:disabled  svg{
+    stroke: #A4A4A4;
+    fill: none;
 
-.editButton:active {
-    color: #007bff;
 }
-
 .disabledButton {
-    cursor: not-allowed;
-    color: #A4A4A4;
+    color:  #A4A4A4;
 }
+.deleteButton:active svg {
+    stroke: rgba(255, 155, 155, 1);
 
-.deleteButton {
-    background: none;
-    border: none;
-    cursor: pointer;
-    transition: transform 0.2s ease, color 0.3s ease;
-    color: #FF2F2F;
 }
+.deleteButton:hover svg {
+    stroke: rgba(255, 47, 47, 1);
+    fill: rgba(164, 164, 164, 1);
+;
+;
 
-.deleteButton:hover {
-    transform: scale(1.1);
-    color: #FF9B9B;
 }
 .shadowElement {
     position: absolute;

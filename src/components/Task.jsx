@@ -13,12 +13,9 @@ const Task = ({ task }) => {
     const textAreaRef = useRef(null);
     const originalTitle = useRef(task.title);
 
-    // Функция для форматирования и проверки даты
     const formatTaskDate = (createdAt) => {
         const taskDate = new Date(createdAt);
         const currentDate = new Date();
-
-        // Проверка на разницу в днях
         const differenceInTime = currentDate.setHours(0, 0, 0, 0) - taskDate.setHours(0, 0, 0, 0);
         const differenceInDays = differenceInTime / (1000 * 3600 * 24);
 
@@ -80,10 +77,15 @@ const Task = ({ task }) => {
 
     const updateTextAreaHeight = () => {
         if (!textAreaRef.current) return;
-
         textAreaRef.current.style.height = 'auto';
         textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`;
     };
+
+    useEffect(() => {
+        if (!isSelected) {
+            setIsEditing(false);
+        }
+    }, [isSelected]);
 
     return (
         <div className={styles.taskContainer}>
@@ -91,7 +93,7 @@ const Task = ({ task }) => {
             <div className={styles.taskDate}>
                 {formatTaskDate(task.createdAt)}
             </div>
-            <div style={{display: 'flex', justifyContent: 'space-between', gap: '20px'}}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', gap: '20px' }}>
                 <label className={styles.taskCheckboxWrapper}>
                     <input
                         className={styles.taskCheckbox}
@@ -145,7 +147,7 @@ const Task = ({ task }) => {
             </div>
 
             <div className={styles.buttons}>
-                {isEditing  && selectedTaskId && (
+                {isEditing && selectedTaskId && (
                     <button
                         onClick={handleSaveClick}
                         className={styles.saveButton}
@@ -157,6 +159,10 @@ const Task = ({ task }) => {
                     onClick={handleEditClick}
                     className={`${styles.editButton} ${task.completed ? styles.disabledButton : ""}`}
                     disabled={task.completed}
+                    style={{
+                        cursor: task.completed ? 'not-allowed' : 'pointer',
+                        color: isEditing ? '#0013FF' : '#30324B',
+                    }}
                 >
                     <svg
                         width="24"
@@ -164,13 +170,17 @@ const Task = ({ task }) => {
                         viewBox="0 0 24 24"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
+                        stroke={isEditing ? '#0013FF' : 'currentColor'}
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                     >
                         <path
                             d="M12 3H5C4.46957 3 3.96086 3.21071 3.58579 3.58579C3.21071 3.96086 3 4.46957 3 5V19C3 19.5304 3.21071 20.0391 3.58579 20.4142C3.96086 20.7893 4.46957 21 5 21H19C19.5304 21 20.0391 20.7893 20.4142 20.4142C20.7893 20.0391 21 19.5304 21 19V12"
-                            stroke="#30324B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        />
                         <path
                             d="M18.3751 2.62498C18.7729 2.22716 19.3125 2.00366 19.8751 2.00366C20.4377 2.00366 20.9773 2.22716 21.3751 2.62498C21.7729 3.02281 21.9964 3.56237 21.9964 4.12498C21.9964 4.68759 21.7729 5.22716 21.3751 5.62498L12.3621 14.639C12.1246 14.8762 11.8313 15.0499 11.5091 15.144L8.63609 15.984C8.55005 16.0091 8.45883 16.0106 8.372 15.9883C8.28517 15.9661 8.20592 15.9209 8.14254 15.8575C8.07916 15.7942 8.03398 15.7149 8.01174 15.6281C7.98949 15.5412 7.991 15.45 8.01609 15.364L8.85609 12.491C8.95062 12.169 9.12463 11.876 9.36209 11.639L18.3751 2.62498Z"
-                            stroke="#30324B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        />
                     </svg>
                 </button>
 
