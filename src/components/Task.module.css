@@ -149,3 +149,20 @@
     height: 2px;
     background-color: rgba(48, 50, 75, 1);
 }
+.saveButton {
+    width: 81px;
+    height: 16px;
+    color: rgba(0, 19, 255, 1);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 16px;
+    text-align: left;
+    margin-top: 4px;
+    margin-right: 4px;
+}
+
+.saveButton:hover {
+
+
+
+}

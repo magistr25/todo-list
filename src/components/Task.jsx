@@ -3,28 +3,53 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toggleTaskStatus, deleteTask, selectTask, deselectTask, editTask } from '../features/todo/todoSlice';
 import styles from './Task.module.css';
 import PropTypes from 'prop-types';
-import 'draft-js/dist/Draft.css';
 
 const Task = ({ task }) => {
     const dispatch = useDispatch();
     const selectedTaskId = useSelector(state => state.todo.selectedTaskId);
-
+    const [isEditing, setIsEditing] = useState(false);
     const isSelected = selectedTaskId === task.id;
-
     const [editedTitle, setEditedTitle] = useState(task.title);
     const textAreaRef = useRef(null);
+    const originalTitle = useRef(task.title);
 
     const handleEditClick = () => {
         if (isSelected) {
-            dispatch(editTask({ id: task.id, title: editedTitle }));
+            // Если уже редактируется, просто завершаем выбор
             dispatch(deselectTask());
+            setIsEditing(false);
+            setEditedTitle(originalTitle.current);
         } else {
+            // Переход в режим редактирования
             dispatch(selectTask(task.id));
-            // Добавляем пробел в конце строки и обновляем состояние
-            const updatedText = editedTitle.endsWith(' ') ? editedTitle : editedTitle + ' ';
-            setEditedTitle(updatedText);
+            setIsEditing(true);
+            originalTitle.current = task.title; // Сохраняем оригинальное значение
+            setEditedTitle(task.title);
+            setTimeout(() => {
+                if (textAreaRef.current) {
+                    textAreaRef.current.focus();
+                    const length = textAreaRef.current.value.length;
+                    textAreaRef.current.setSelectionRange(length, length);
+                }
+                updateTextAreaHeight();
+            }, 0);
+            // Добавляем пробел, если он не существует
+            if (!editedTitle.endsWith(' ')) {
+                setEditedTitle(editedTitle + ' ');
+            }
         }
     };
+
+    const handleSaveClick = () => {
+        if (isSelected) {
+            // Удаляем лишний пробел перед сохранением, если он есть
+            const trimmedTitle = editedTitle.trimEnd();
+            dispatch(editTask({ id: task.id, title: trimmedTitle }));
+            dispatch(deselectTask());
+            setIsEditing(false);
+        }
+    };
+
 
 // Используем useEffect для перемещения каретки, когда текст обновлен
     useEffect(() => {
@@ -64,6 +89,7 @@ const Task = ({ task }) => {
                 </label>
 
                 {isSelected ? (
+                    <div className={styles.textAreaContainer}>
                     <textarea
                         className={styles.editInput}
                         ref={textAreaRef}
@@ -82,8 +108,10 @@ const Task = ({ task }) => {
                             whiteSpace: 'pre-wrap',
                             overflow: 'hidden',
 
+
                         }}
                     />
+                    </div>
                 ) : (
                     <textarea
                         className={styles.editInput}
@@ -99,13 +127,19 @@ const Task = ({ task }) => {
                             zIndex: '1',
                             textDecoration: task.completed ? 'line-through' : 'none',
                             textDecorationColor: 'rgba(48, 50, 75, 1)',
-
-
                         }}
                     />
                 )}
             </div>
             <div className={styles.buttons}>
+                {isEditing && (
+                    <button
+                        onClick={handleSaveClick}
+                        className={styles.saveButton}
+                    >
+                        Сохранить
+                    </button>
+                )}
                 {/* Кнопка редактирования */}
                 <button
                     onClick={handleEditClick}
