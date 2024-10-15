@@ -31,6 +31,26 @@
 
 }
 
+.taskButton {
+    border: none;
+    background: none;
+    cursor: pointer;
+    outline: none;
+    padding: 0;
+}
+
+.taskImage {
+    width: 60px;
+    height: 50px;
+    transition: transform 0.2s ease;
+}
+
+/* Эффект нажатия */
+.taskButton:active .taskImage {
+    transform: scale(0.9);
+}
+
+
 
 
 

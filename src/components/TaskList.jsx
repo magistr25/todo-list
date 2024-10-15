@@ -1,11 +1,12 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setFilter } from '../features/todo/todoSlice';
 import Task from './Task';
 import styles from './TaskList.module.css';
 
 const TaskList = () => {
-    const [filter, setFilter] = useState('all');
+    const dispatch = useDispatch();
     const tasks = useSelector((state) => state.todo.tasks);
+    const filter = useSelector((state) => state.todo.filter);
 
     const filteredTasks = tasks.filter((task) => {
         if (filter === 'completed') return task.completed;
@@ -13,12 +14,31 @@ const TaskList = () => {
         return true;
     });
 
+    const handleFilterChange = (newFilter) => {
+        dispatch(setFilter(newFilter));
+    };
+
     return (
         <div>
-            <div className={styles.btnContainer} >
-                <button className={styles.btn} onClick={() => setFilter('all')}>Все</button>
-                <button className={styles.btn1} onClick={() => setFilter('completed')}>Выполнено</button>
-                <button className={styles.btn2} onClick={() => setFilter('incomplete')}>Не выполнено</button>
+            <div className={styles.btnContainer}>
+                <button
+                    className={`${styles.btn} ${filter === 'all' ? styles.activeBtn : ''}`}
+                    onClick={() => handleFilterChange('all')}
+                >
+                    Все
+                </button>
+                <button
+                    className={`${styles.btn1} ${filter === 'completed' ? styles.activeBtn1 : ''}`}
+                    onClick={() => handleFilterChange('completed')}
+                >
+                    Выполнено
+                </button>
+                <button
+                    className={`${styles.btn2} ${filter === 'incomplete' ? styles.activeBtn2 : ''}`}
+                    onClick={() => handleFilterChange('incomplete')}
+                >
+                    Не выполнено
+                </button>
             </div>
             {filteredTasks.map((task) => (
                 <Task key={task.id} task={task} />
@@ -27,5 +47,5 @@ const TaskList = () => {
     );
 };
 
-export default TaskList;
 
+export default TaskList;

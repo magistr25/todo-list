@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     tasks: [],
     selectedTaskId: null,
+    filter: 'all',
 };
 
 const todoSlice = createSlice({
@@ -33,10 +34,13 @@ const todoSlice = createSlice({
         },
         deselectTask: (state) => {
             state.selectedTaskId = null;
-        }
+        },
+        setFilter: (state, action) => {
+            state.filter = action.payload;  // Новый экшен для установки фильтра
+        },
     },
 });
 
-export const { addTask, toggleTaskStatus, deleteTask, editTask,selectTask, deselectTask } = todoSlice.actions;
+export const { addTask, toggleTaskStatus, deleteTask, editTask,selectTask, deselectTask, setFilter  } = todoSlice.actions;
 
 export default todoSlice.reducer;

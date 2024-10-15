@@ -27,7 +27,7 @@
     border: 2px solid rgba(48, 50, 75, 1);
     color: rgba(48, 50, 75, 1);
 }
-.btn:active {
+.btn:active, .activeBtn {
     background: rgba(48, 50, 75, 1);
     color: rgba(255, 255, 255, 1);
 }
@@ -46,7 +46,7 @@
     border: 2px solid rgba(106, 212, 0, 1);
     color: rgba(106, 212, 0, 1);
 }
-.btn1:active{
+.btn1:active, .activeBtn1{
     background: rgba(106, 212, 0, 1);
     color: rgba(255, 255, 255, 1);
 }
@@ -58,7 +58,7 @@
 
 
 }
-.btn1:focus{
+.btn1:focus {
     background: rgba(106, 212, 0, 1);
     border: 2px solid rgba(206, 255, 157, 1);
     color: rgba(255, 255, 255, 1);
@@ -68,7 +68,7 @@
     border: 2px solid rgba(255, 47, 47, 1);
     color: rgba(255, 47, 47, 1);
 }
-.btn2:active{
+.btn2:active, .activeBtn2{
     background: rgba(255, 47, 47, 1);
     color: rgba(255, 255, 255, 1);
 
@@ -85,3 +85,5 @@
     color: rgba(255, 255, 255, 1);
 
 }
+
+
