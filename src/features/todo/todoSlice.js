@@ -23,7 +23,7 @@ const todoSlice = createSlice({
             state.tasks = state.tasks.filter((task) => task.id !== action.payload);
         },
         editTask: (state, action) => {
-            const { id, title } = action.payload;
+            const {id, title} = action.payload;
             const task = state.tasks.find((task) => task.id === id);
             if (task) {
                 task.title = title;
@@ -36,11 +36,14 @@ const todoSlice = createSlice({
             state.selectedTaskId = null;
         },
         setFilter: (state, action) => {
-            state.filter = action.payload;  // Новый экшен для установки фильтра
+            state.filter = action.payload;
+        },
+        resetEditing: (state) => {
+            state.selectedTaskId = null;
         },
     },
 });
 
-export const { addTask, toggleTaskStatus, deleteTask, editTask,selectTask, deselectTask, setFilter  } = todoSlice.actions;
+export const { addTask, toggleTaskStatus, deleteTask, editTask,resetEditing, selectTask, deselectTask, setFilter  } = todoSlice.actions;
 
 export default todoSlice.reducer;

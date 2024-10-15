@@ -19,7 +19,13 @@ const TaskForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (title) {
-            dispatch(addTask({ id: Date.now(), title, completed: false }));
+            const task = {
+                id: Date.now(),
+                title,
+                completed: false,
+                createdAt: new Date(),
+            };
+            dispatch(addTask(task));
             setTitle('');
         }
     };

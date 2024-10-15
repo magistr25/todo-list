@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { setFilter } from '../features/todo/todoSlice';
+import {resetEditing, setFilter} from '../features/todo/todoSlice';
 import Task from './Task';
 import styles from './TaskList.module.css';
 
@@ -15,7 +15,8 @@ const TaskList = () => {
     });
 
     const handleFilterChange = (newFilter) => {
-        dispatch(setFilter(newFilter));
+        dispatch(resetEditing());
+         dispatch(setFilter(newFilter));
     };
 
     return (
