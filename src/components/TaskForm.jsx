@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addTask } from '../features/todo/todoSlice';
+import { v4 as uuidv4 } from 'uuid'; // Импортируем функцию для генерации уникальных id
 import styles from './TaskForm.module.css';
 
 const TaskForm = () => {
@@ -20,10 +21,10 @@ const TaskForm = () => {
         e.preventDefault();
         if (title) {
             const task = {
-                id: Date.now(),
+                id: uuidv4(), // Генерация уникального идентификатора
                 title,
                 completed: false,
-                createdAt: new Date(),
+                createdAt: new Date().toISOString(), // Преобразуем дату в строку для сериализации
             };
             dispatch(addTask(task));
             setTitle('');

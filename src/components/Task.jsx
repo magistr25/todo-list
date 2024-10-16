@@ -14,7 +14,7 @@ const Task = ({ task }) => {
     const originalTitle = useRef(task.title);
 
     const formatTaskDate = (createdAt) => {
-        const taskDate = new Date(createdAt);
+        const taskDate = new Date(createdAt); // Преобразуем строку обратно в объект Date
         const currentDate = new Date();
         const differenceInTime = currentDate.setHours(0, 0, 0, 0) - taskDate.setHours(0, 0, 0, 0);
         const differenceInDays = differenceInTime / (1000 * 3600 * 24);
@@ -59,6 +59,11 @@ const Task = ({ task }) => {
             dispatch(editTask({ id: task.id, title: trimmedTitle }));
             dispatch(deselectTask());
             setIsEditing(false);
+
+            // После завершения редактирования вызываем функцию, чтобы корректно установить высоту
+            setTimeout(() => {
+                updateTextAreaHeight(); // Пересчёт высоты после изменения содержимого
+            }, 0);
         }
     };
 
@@ -70,28 +75,31 @@ const Task = ({ task }) => {
         }
     }, [isSelected, editedTitle]);
 
-    const handleInputChange = (e) => {
-        setEditedTitle(e.target.value);
-        updateTextAreaHeight();
-    };
-
     const updateTextAreaHeight = () => {
         if (!textAreaRef.current) return;
+
+        // Сбрасываем высоту на 'auto', чтобы измерить необходимую высоту
         textAreaRef.current.style.height = 'auto';
+
+        // Устанавливаем высоту в соответствии с содержимым (scrollHeight)
         textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`;
     };
 
+    const handleInputChange = (e) => {
+        setEditedTitle(e.target.value);
+        updateTextAreaHeight(); // Обновляем высоту каждый раз при изменении текста
+    };
+
+    // При загрузке компонента можно также сразу установить правильную высоту
     useEffect(() => {
-        if (!isSelected) {
-            setIsEditing(false);
-        }
-    }, [isSelected]);
+        updateTextAreaHeight();
+    }, [editedTitle]);
 
     return (
         <div className={styles.taskContainer}>
             {/* Отображение даты создания задачи */}
             <div className={styles.taskDate}>
-                {formatTaskDate(task.createdAt)}
+                {formatTaskDate(task.createdAt)} {/* Используем task.createdAt */}
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', gap: '20px' }}>
                 <label className={styles.taskCheckboxWrapper}>
@@ -100,6 +108,7 @@ const Task = ({ task }) => {
                         type="checkbox"
                         checked={task.completed}
                         onChange={() => dispatch(toggleTaskStatus(task.id))}
+                        disabled={isEditing} // Чекбокс отключен в режиме редактирования
                     />
                     <span className={styles.taskCheckboxCustom}></span>
                 </label>
@@ -113,7 +122,6 @@ const Task = ({ task }) => {
                             onChange={handleInputChange}
                             spellCheck={false}
                             style={{
-                                width: '1100px',
                                 height: 'auto',
                                 background: 'transparent',
                                 position: 'relative',
@@ -134,13 +142,13 @@ const Task = ({ task }) => {
                         spellCheck={false}
                         readOnly={true}
                         style={{
-                            width: '1100px',
                             height: 'auto',
                             background: 'transparent',
                             position: 'relative',
                             zIndex: '1',
-                            textDecoration: task.completed ? 'line-through' : 'none',
+                            textDecorationLine: task.completed ? 'line-through' : 'none',
                             textDecorationColor: 'rgba(48, 50, 75, 1)',
+                            textDecorationStyle: 'solid',
                         }}
                     />
                 )}
@@ -207,10 +215,10 @@ const Task = ({ task }) => {
 
 Task.propTypes = {
     task: PropTypes.shape({
-        id: PropTypes.number.isRequired,
+        id: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
         completed: PropTypes.bool.isRequired,
-        createdAt: PropTypes.string.isRequired,
+        createdAt: PropTypes.string.isRequired, // Ожидаем строку, а не объект Date
     }).isRequired
 };
 

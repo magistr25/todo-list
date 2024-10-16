@@ -5,4 +5,11 @@ export const store = configureStore({
     reducer: {
         todo: todoReducer,
     },
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+            serializableCheck: {
+                ignoredPaths: ['todo.tasks'],
+                ignoredActionPaths: ['payload.createdAt'],
+            },
+        }),
 });

@@ -1,8 +1,10 @@
 .taskContainer {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: 20px;
-    width: 1240px;
+    width:100%;
+    max-width: 90vw;
+    height: auto;
     padding: 25px 25px 25px 25px;
     border-radius: 21px;
     background-color: rgba(255, 255, 255, 1);
@@ -11,170 +13,179 @@
     margin-bottom: 20px;
 }
 
-.taskCheckboxWrapper {
-    position: relative;
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-}
-
-.taskCheckbox {
-    opacity: 0;
-    width: 20px;
-    height: 20px;
-    position: absolute;
-    cursor: pointer;
-    margin: 0;
-    z-index: 2;
-}
-
-.taskCheckboxCustom {
-    width: 20px;
-    height: 20px;
-    border: 2px solid rgba(164, 164, 164, 1);
-    border-radius: 50%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    cursor: pointer;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-    z-index: 1;
-}
-
-.taskCheckbox:checked + .taskCheckboxCustom {
-    background-color: rgba(106, 212, 0, 1);
-    border-color: rgba(106, 212, 0, 1);
-}
-
-.editInput {
-    border: none;
-    outline: none;
-    width: 1100px;
-    box-sizing: border-box;
-    resize: none;
-    overflow: hidden;
-    color: rgba(48, 50, 75, 1);
-    font-size: 16px;
-    line-height: 24px;
-    font-weight: 400;
-    text-align: left;
-    height: auto;
-    caret-color: rgba(0, 19, 255, 1);
-    margin-top: -3px;
-}
-
-.buttons {
-    width: 100%;
-    height: 24px;
+.taskWrapper {
     display: flex;
-    justify-content: flex-end;
-    margin-bottom: 0;
-    padding-bottom: 0;
-    margin-top: -25px;
-    padding-top: 0;
-
+    align-items: center;
 }
+    .taskCheckboxWrapper {
+        position: relative;
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+    }
 
-.editButton, .deleteButton {
-    background: none;
-    border: none;
-    cursor: pointer;
-    width: 24px;
-    height: 24px;
-    margin-left: 10px;
-   }
+    .taskCheckbox {
+        opacity: 0;
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        cursor: pointer;
+        margin: 0;
+        z-index: 2;
+    }
+
+    .taskCheckboxCustom {
+        width: 20px;
+        height: 20px;
+        border: 2px solid rgba(164, 164, 164, 1);
+        border-radius: 50%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        cursor: pointer;
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+        z-index: 1;
+    }
+
+    .taskCheckbox:checked + .taskCheckboxCustom {
+        background-color: rgba(106, 212, 0, 1);
+        border-color: rgba(106, 212, 0, 1);
+    }
+
+    .editInput {
+        border: none;
+        outline: none;
+        width: 1100px;
+        height: auto;
+        box-sizing: border-box;
+        resize: none;
+        overflow: hidden;
+        color: rgba(48, 50, 75, 1);
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 400;
+        text-align: left;
+        height: auto;
+        caret-color: rgba(0, 19, 255, 1);
+        margin-top: -3px;
+    }
+
+    .buttons {
+        width: 100%;
+        height: 24px;
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 0;
+        padding-bottom: 0;
+        margin-top: -25px;
+        padding-top: 0;
+
+    }
+
+    .editButton, .deleteButton {
+        background: none;
+        border: none;
+        cursor: pointer;
+        width: 24px;
+        height: 24px;
+        margin-left: 10px;
+    }
 
 
-.editButton:active svg {
-    stroke: #0013FF;
-    fill: none;
-}
-.editButton:hover svg{
-    color: #606492;
-}
+    .editButton:active svg {
+        stroke: #0013FF;
+        fill: none;
+    }
+    .editButton:hover svg{
+        color: #606492;
+    }
 
-.editButton:disabled  svg{
-    stroke: #A4A4A4;
-    fill: none;
+    .editButton:disabled  svg{
+        stroke: #A4A4A4;
+        fill: none;
 
-}
-.disabledButton {
-    color:  #A4A4A4;
-}
-.deleteButton:active svg {
-    stroke: rgba(255, 155, 155, 1);
+    }
+    .disabledButton {
+        color:  #A4A4A4;
+    }
+    .deleteButton:active svg {
+        stroke: rgba(255, 155, 155, 1);
 
-}
-.deleteButton:hover svg {
-    stroke: rgba(255, 47, 47, 1);
-    fill: rgba(164, 164, 164, 1);
-;
-;
+    }
+    .deleteButton:hover svg {
+        stroke: rgba(255, 47, 47, 1);
+        fill: rgba(164, 164, 164, 1);
+    ;
+    ;
 
-}
-.shadowElement {
-    position: absolute;
-    visibility: hidden;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    font-size: 16px;
-    line-height: 30px;
-    padding: 0;
-    margin: 0;
-    font-family: inherit;
-}
+    }
+    .shadowElement {
+        position: absolute;
+        visibility: hidden;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        font-size: 16px;
+        line-height: 30px;
+        padding: 0;
+        margin: 0;
+        font-family: inherit;
+    }
 
 
 
-.line {
-    max-width: 1093px;
-    height: 0.5px;
-    background-color:rgba(164, 164, 164, 1);
-    margin-top: 10px;
-    transition: width 0.3s ease;
-}
-.textAreaContainer {
-    position: relative;
-    width: 1100px;
-}
+    .line {
+        max-width: 1093px;
+        height: 0.5px;
+        background-color:rgba(164, 164, 164, 1);
+        margin-top: 10px;
+        transition: width 0.3s ease;
+    }
+    .textAreaContainer {
+        position: relative;
+        width: 1100px;
+    }
 
-.lineThrough {
-    position: absolute;
-    bottom: 8px;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background-color: rgba(48, 50, 75, 1);
-}
+    .lineThrough {
+        position: absolute;
+        bottom: 8px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background-color: rgba(48, 50, 75, 1);
+    }
 
-.underline {
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background-color: rgba(48, 50, 75, 1);
-}
-.saveButton {
-    width: 81px;
-    height: 16px;
-    color: rgba(0, 19, 255, 1);
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 16px;
-    text-align: left;
-    margin-top: 4px;
-    margin-right: 4px;
-}
+    .underline {
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background-color: rgba(48, 50, 75, 1);
+    }
+    .saveButton {
+        width: 81px;
+        height: 16px;
+        color: rgba(0, 19, 255, 1);
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 16px;
+        text-align: left;
+        margin-top: 4px;
+        margin-right: 4px;
+    }
 
-.taskDate {
-    width: 1160px;
-    height: 20px;
-    color: rgba(48, 50, 75, 1);
-    margin-left: 5px;
-    font-family: 'Muller', Arial, sans-serif;
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 20px;
-    text-align: left;
-}
+    .taskDate {
+        width: 1160px;
+        height: 20px;
+        color: rgba(48, 50, 75, 1);
+        margin-left: 5px;
+        font-family: 'Muller', Arial, sans-serif;
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 20px;
+        text-align: left;
+    }
+    textarea {
+        width: 200px;
+    }
+
