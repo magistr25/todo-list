@@ -90,7 +90,7 @@ const Task = ({ task }) => {
         updateTextAreaHeight(); // Обновляем высоту каждый раз при изменении текста
     };
 
-    // При загрузке компонента можно также сразу установить правильную высоту
+    // Устанавливаем высоту компонента
     useEffect(() => {
         updateTextAreaHeight();
     }, [editedTitle]);
@@ -99,7 +99,7 @@ const Task = ({ task }) => {
         <div className={styles.taskContainer}>
             {/* Отображение даты создания задачи */}
             <div className={styles.taskDate}>
-                {formatTaskDate(task.createdAt)} {/* Используем task.createdAt */}
+                {formatTaskDate(task.createdAt)}
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', gap: '20px' }}>
                 <label className={styles.taskCheckboxWrapper}>
@@ -110,7 +110,7 @@ const Task = ({ task }) => {
                         onChange={() => dispatch(toggleTaskStatus(task.id))}
                         disabled={isEditing} // Чекбокс отключен в режиме редактирования
                     />
-                    <span className={styles.taskCheckboxCustom}></span>
+                    <div className={styles.taskCheckboxCustom}></div>
                 </label>
 
                 {isSelected ? (
@@ -218,7 +218,7 @@ Task.propTypes = {
         id: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
         completed: PropTypes.bool.isRequired,
-        createdAt: PropTypes.string.isRequired, // Ожидаем строку, а не объект Date
+        createdAt: PropTypes.string.isRequired,
     }).isRequired
 };
 

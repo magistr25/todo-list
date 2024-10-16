@@ -2,8 +2,6 @@
     display: flex;
     align-items: center;
     gap: 20px;
-    width:100%;
-    max-width: 90vw;
     height: auto;
     padding: 25px 25px 25px 25px;
     border-radius: 21px;
@@ -55,7 +53,7 @@
     .editInput {
         border: none;
         outline: none;
-        width: 1100px;
+        width: 1400px;
         height: auto;
         box-sizing: border-box;
         resize: none;
@@ -188,4 +186,73 @@
     textarea {
         width: 200px;
     }
+
+@media (min-width: 268px) and (max-width: 367px) {
+    .taskContainer {
+        display: flex;
+        align-items: center;
+    }
+   .taskCheckboxCustom {
+       margin-top: 25px;
+   }
+    .editInput {
+        max-width: 200px;
+    }
+    .editButton, .deleteButton {
+        width: 20px;
+        height: 20px;
+    }
+    .saveButton {
+        font-size: 14px;
+    }
+}
+
+@media (min-width: 368px) and (max-width: 467px) {
+    .editInput {
+        max-width: 300px;
+    }
+}
+
+@media (min-width: 468px) and (max-width: 567px) {
+    .editInput {
+        max-width: 400px;
+    }
+}
+
+@media (min-width: 568px) and (max-width: 667px) {
+    .editInput {
+        max-width: 450px;
+    }
+}
+
+@media (min-width: 668px) and (max-width: 767px) {
+    .editInput {
+        max-width: 550px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 867px) {
+    .editInput {
+        max-width:650px;
+    }
+}
+
+@media (min-width: 868px) and (max-width: 967px) {
+    .editInput {
+        max-width: 750px;
+    }
+}
+
+@media (min-width: 968px) and (max-width: 1023px) {
+    .editInput {
+        max-width: 850px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .editInput {
+        max-width: 950px;
+    }
+}
+
 
