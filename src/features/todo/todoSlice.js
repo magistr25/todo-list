@@ -41,9 +41,12 @@ const todoSlice = createSlice({
         resetEditing: (state) => {
             state.selectedTaskId = null;
         },
+        reorderTasks: (state, action) => {
+            state.tasks = action.payload;
+        },
     },
 });
 
-export const { addTask, toggleTaskStatus, deleteTask, editTask,resetEditing, selectTask, deselectTask, setFilter  } = todoSlice.actions;
+export const { addTask, toggleTaskStatus, deleteTask, editTask,resetEditing, selectTask, deselectTask, setFilter, reorderTasks  } = todoSlice.actions;
 
 export default todoSlice.reducer;

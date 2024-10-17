@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useDrag, useDrop } from 'react-dnd';
 import { toggleTaskStatus, deleteTask, selectTask, deselectTask, editTask } from '../features/todo/todoSlice';
 import styles from './Task.module.css';
 import PropTypes from 'prop-types';
 
-const Task = ({ task }) => {
+const Task = ({ task, index, moveTask }) => {
     const dispatch = useDispatch();
     const selectedTaskId = useSelector(state => state.todo.selectedTaskId);
     const [isEditing, setIsEditing] = useState(false);
@@ -13,8 +14,34 @@ const Task = ({ task }) => {
     const textAreaRef = useRef(null);
     const originalTitle = useRef(task.title);
 
+    // Добавляем состояние для отслеживания перетаскивания
+    const [{ isDragging }, dragRef] = useDrag({
+        type: 'TASK',
+        item: { index },
+        collect: (monitor) => ({
+            isDragging: monitor.isDragging(),
+        }),
+    });
+
+    // Обрабатываем перетаскивание
+    const [, dropRef] = useDrop({
+        accept: 'TASK',
+        hover: (draggedItem) => {
+            if (draggedItem.index !== index) {
+                moveTask(draggedItem.index, index);
+                draggedItem.index = index;
+            }
+        },
+    });
+
+    // Объединяем drag и drop ссылки
+    const dragDropRef = (node) => {
+        dragRef(node);
+        dropRef(node);
+    };
+
     const formatTaskDate = (createdAt) => {
-        const taskDate = new Date(createdAt); // Преобразуем строку обратно в объект Date
+        const taskDate = new Date(createdAt);
         const currentDate = new Date();
         const differenceInTime = currentDate.setHours(0, 0, 0, 0) - taskDate.setHours(0, 0, 0, 0);
         const differenceInDays = differenceInTime / (1000 * 3600 * 24);
@@ -29,7 +56,7 @@ const Task = ({ task }) => {
     };
 
     const handleEditClick = () => {
-        if (isSelected) {
+        if (selectedTaskId === task.id) {
             dispatch(deselectTask());
             setIsEditing(false);
             setEditedTitle(originalTitle.current);
@@ -54,49 +81,46 @@ const Task = ({ task }) => {
     };
 
     const handleSaveClick = () => {
-        if (isSelected) {
+        if (selectedTaskId === task.id) {
             const trimmedTitle = editedTitle.trimEnd();
             dispatch(editTask({ id: task.id, title: trimmedTitle }));
             dispatch(deselectTask());
             setIsEditing(false);
 
-            // После завершения редактирования вызываем функцию, чтобы корректно установить высоту
             setTimeout(() => {
-                updateTextAreaHeight(); // Пересчёт высоты после изменения содержимого
+                updateTextAreaHeight();
             }, 0);
         }
     };
 
     useEffect(() => {
-        if (isSelected && textAreaRef.current) {
+        if (selectedTaskId === task.id && textAreaRef.current) {
             textAreaRef.current.focus();
             const length = textAreaRef.current.value.length;
             textAreaRef.current.setSelectionRange(length, length);
         }
-    }, [isSelected, editedTitle]);
+    }, [selectedTaskId, editedTitle,  task.id]);
 
     const updateTextAreaHeight = () => {
         if (!textAreaRef.current) return;
-
-        // Сбрасываем высоту на 'auto', чтобы измерить необходимую высоту
         textAreaRef.current.style.height = 'auto';
-
-        // Устанавливаем высоту в соответствии с содержимым (scrollHeight)
         textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`;
     };
 
     const handleInputChange = (e) => {
         setEditedTitle(e.target.value);
-        updateTextAreaHeight(); // Обновляем высоту каждый раз при изменении текста
+        updateTextAreaHeight();
     };
 
-    // Устанавливаем высоту компонента
     useEffect(() => {
         updateTextAreaHeight();
     }, [editedTitle]);
 
     return (
-        <div className={styles.taskContainer}>
+        <div
+            ref={dragDropRef}
+            className={`${styles.taskContainer} ${isDragging ? styles.dragging : ''}`} // Добавляем класс во время перетаскивания
+        >
             {/* Отображение даты создания задачи */}
             <div className={styles.taskDate}>
                 {formatTaskDate(task.createdAt)}
@@ -118,17 +142,14 @@ const Task = ({ task }) => {
                         <textarea
                             className={styles.editInput}
                             ref={textAreaRef}
-                            value={typeof editedTitle === "string" ? editedTitle : ""}
+                            value={editedTitle}
                             onChange={handleInputChange}
                             spellCheck={false}
                             style={{
                                 height: 'auto',
                                 background: 'transparent',
-                                position: 'relative',
-                                zIndex: '1',
                                 textDecoration: 'underline',
                                 textDecorationColor: 'rgba(48, 50, 75, 1)',
-                                textUnderlineOffset: '7px',
                                 whiteSpace: 'pre-wrap',
                                 overflow: 'hidden',
                             }}
@@ -138,14 +159,12 @@ const Task = ({ task }) => {
                     <textarea
                         className={styles.editInput}
                         ref={textAreaRef}
-                        value={typeof editedTitle === "string" ? editedTitle : ""}
-                        spellCheck={false}
+                        value={editedTitle}
                         readOnly={true}
+                        spellCheck={false}
                         style={{
                             height: 'auto',
                             background: 'transparent',
-                            position: 'relative',
-                            zIndex: '1',
                             textDecorationLine: task.completed ? 'line-through' : 'none',
                             textDecorationColor: 'rgba(48, 50, 75, 1)',
                             textDecorationStyle: 'solid',
@@ -155,7 +174,7 @@ const Task = ({ task }) => {
             </div>
 
             <div className={styles.buttons}>
-                {isEditing && selectedTaskId && (
+                {isEditing && selectedTaskId === task.id && (
                     <button
                         onClick={handleSaveClick}
                         className={styles.saveButton}
@@ -169,7 +188,6 @@ const Task = ({ task }) => {
                     disabled={task.completed}
                     style={{
                         cursor: task.completed ? 'not-allowed' : 'pointer',
-                        color: isEditing ? '#0013FF' : '#30324B',
                     }}
                 >
                     <svg
@@ -194,7 +212,7 @@ const Task = ({ task }) => {
 
                 <button
                     onClick={() => dispatch(deleteTask(task.id))}
-                    className={`${styles.deleteButton}`}
+                    className={styles.deleteButton}
                 >
                     <svg
                         width="24"
@@ -219,7 +237,9 @@ Task.propTypes = {
         title: PropTypes.string.isRequired,
         completed: PropTypes.bool.isRequired,
         createdAt: PropTypes.string.isRequired,
-    }).isRequired
+    }).isRequired,
+    index: PropTypes.number.isRequired,
+    moveTask: PropTypes.func.isRequired,
 };
 
 export default Task;
