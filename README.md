@@ -1,8 +1,85 @@
-# React + Vite
+# Todo List
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Описание проекта
 
-Currently, two official plugins are available:
+**Todo List** — это приложение для управления задачами, разработанное на React с использованием Redux Toolkit для управления состоянием и react-dnd для перетаскивания задач.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Установка
+
+### 1. Клонируйте репозиторий:
+```bash
+git clone https://github.com/magistr25/todo-list.git
+```
+
+### 2. Перейдите в директорию проекта:
+```bash
+cd todo-list
+```
+
+### 3. Установите зависимости:
+```bash
+npm install
+```
+
+## Скрипты
+
+- `npm run dev` — Запуск приложения в режиме разработки на [http://localhost:5173/](http://localhost:5173/).
+- `npm run build` — Сборка проекта для продакшена.
+- `npm run lint` — Запуск ESLint для проверки кода.
+- `npm run preview` — Запуск собранного проекта для предпросмотра.
+
+## Стек технологий
+
+- **React** — Библиотека для создания пользовательских интерфейсов.
+- **Redux Toolkit** — Инструмент для управления состоянием.
+- **React DnD** — Библиотека для перетаскивания задач.
+- **Vite** — Инструмент для сборки и разработки приложений.
+- **PropTypes** — Валидация типов пропсов.
+- **ESLint** — Инструмент для анализа качества кода.
+
+## Основные зависимости
+
+```json
+{
+  "@reduxjs/toolkit": "^2.2.8",
+  "prop-types": "^15.8.1",
+  "react": "^18.3.1",
+  "react-dnd": "^16.0.1",
+  "react-dnd-html5-backend": "^16.0.1",
+  "react-dom": "^18.3.1",
+  "react-redux": "^9.1.2",
+  "uuid": "^10.0.0"
+}
+```
+
+## Функциональность
+
+- **Добавление задачи**: Введите название задачи в форму и нажмите "Добавить".
+- **Редактирование задачи**: Нажмите на иконку редактирования для изменения задачи.
+- **Удаление задачи**: Нажмите на иконку корзины для удаления задачи.
+- **Перетаскивание задачи**: Задачи можно перетаскивать, меняя их порядок.
+
+## Запуск проекта
+
+Для запуска в режиме разработки используйте команду:
+
+```bash
+npm run dev
+```
+
+Приложение будет доступно по адресу [http://localhost:5173/](http://localhost:5173/).
+
+Для сборки приложения для продакшена:
+
+```bash
+npm run build
+```
+
+Для предпросмотра собранного приложения:
+
+```bash
+npm run preview
+```
+
+
+
